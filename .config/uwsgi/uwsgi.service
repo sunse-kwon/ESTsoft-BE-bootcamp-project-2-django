@@ -3,7 +3,7 @@ Description=uWSGI service
 After=syslog.target
 
 [Service]
-ExecStart=/srv/ormi-django-project1/venv/bin/uwsgi -i /srv/ormi-django-project1/.config/uwsgi/app.ini
+ExecStart=/home/ubuntu/venv/bin/uwsgi -i /srv/ormi-django-project1/.config/uwsgi/app.ini
 
 Restart=always
 KillSignal=SIGQUIT
