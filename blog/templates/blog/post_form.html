@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>여행 카페 게시판 작성 화면</h2>
+    <form action="{% url 'blog:write' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="글작성">
+    </form>
+{% endblock %}

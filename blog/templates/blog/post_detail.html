@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- 글 상세 화면 -->
+<h2>제목: {{ post.title }}</h2>
+{% if post.user == request.user %}
+    <a href="{% url 'blog:edit' pk=post.pk %}">수정</a>
+    <form action="{% url 'blog:delete' pk=post.pk %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="삭제">
+    </form>
+{% endif %}
+
+
+
+<p>내용: {{ post.content }}</p>
+<p>작성자: {{ post.user_id }}</p>
+<p>작성일: {{ post.created_at }}</p>
+<br>
+
+<!-- 댓글 form -->
+<h3>댓글</h3>
+<form action="{% url 'blog:cmt-write' post_id=post.pk %}" method="post">
+    {% csrf_token %}
+    {% if comment_form.errors %}
+        {% with form=comment_form %}
+            {% include "blog/form_error.html" %}
+        {% endwith %}
+    {% else %}
+        {{ comment_form.content }}
+    {% endif %}
+    <input type="submit" value="댓글작성">
+</form>
+
+<!-- 댓글 화면 -->
+{% if comments %}
+    <ul>
+        {% for comment in comments %}
+            <li>
+                {{ comment.content }} / {{ comment.created_at }} 
+                {% if comment.user == request.user %}
+                    <form action="{% url 'blog:cmt-delete' comment_id=comment.pk %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="x">
+                    </form>
+                {% endif %}
+                <!-- 대댓글 화면 -->
+                {% for reply in comment.reply_set.all %}
+                    <li>
+                        <p>re: {{ reply.content }}</p>
+                        {% if reply.user == request.user %}
+                            <form action="{% url 'blog:reply-delete' reply_id=reply.pk %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="x">
+                            </form>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+
+                <!-- 대댓글 작성화면 -->
+                <form action="{% url 'blog:reply-write' comment_id=comment.pk %}" method="post">
+                    {% csrf_token %}
+                    {{ reply_form.content }}
+                    <input type="submit" value="reply">
+                </form>
+
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>댓글이 없습니다.</p>
+{% endif %}
+
+
+<br>
+<!-- 해시태그 form -->
+<h3>해시태그</h3>
+<form action="{% url 'blog:tag-write' post_id=post.pk %}" method="post">
+    {% csrf_token %}
+    {% if hashtag_form.errors %}
+        {% with form=hashtag_form %}
+            {% include "blog/form_error.html" %}
+        {% endwith %}
+    {% else %}
+        {{ hashtag_form.name }}
+    {% endif %}
+    <input type="submit" value="태그작성">
+</form>
+
+<!-- 해시태그 화면 -->
+{% if hashtags %}
+    <ul>
+        {% for hashtag in hashtags %}
+            <li>
+                {{ hashtag.name }}
+                {% if hashtag.user == request.user %}
+                    <form action="{% url 'blog:tag-delete' hashtag_id=hashtag.pk %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value=x>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>태그가 없습니다.</p>
+{% endif %}
+
+{% endblock %}
