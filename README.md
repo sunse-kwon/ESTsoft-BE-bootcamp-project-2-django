@@ -27,43 +27,43 @@
 
 ## 2.x 단계 페이지 구현
 - 메인페이지
-![메인](image-2.png)
+![메인](./README-IMG/image-2.png)
 - 회원가입
-![회원가입](image-3.png)
+![회원가입](./README-IMG/image-3.png)
 - 로그인
-![로그인](image-4.png)
+![로그인](./README-IMG/image-4.png)
 - 게시글 작성
-![글작성](image-6.png)
+![글작성](./README-IMG/image-6.png)
 - 게시글 목록
-![글목록](image-5.png)
+![글목록](./README-IMG/image-5.png)
 
 - 게시글 상세보기 (오류: 해시태그 삭제가 안되는 문제가 발생하였으나 잡지못하고 넘어가는 한계)
-![상세1](image-7.png)
-![상세2](image-8.png)
+![상세1](./README-IMG/image-7.png)
+![상세2](./README-IMG/image-8.png)
 
 - 게시글 검색: 해시태그 테이블을 구현하여, 해시태그별로 글을 검색할수있게 기능 구현(e.g 여름이라는 해시태그를 가진 글 필터)
-![글검색](image-9.png)
+![글검색](./README-IMG/image-9.png)
 - 게시글 수정
-![글수정](image-10.png)
+![글수정](./README-IMG/image-10.png)
 - 게시글 삭제(아래 글 삭제한 후 목록으로 리다이렉션)
-![글삭제1](image-11.png)
-![글삭제2](image-12.png)
+![글삭제1](./README-IMG/image-11.png)
+![글삭제2](./README-IMG/image-12.png)
 - 코멘트 작성 & 삭제
-![댓글작성 및 삭제](image-14.png)
+![댓글작성 및 삭제](./README-IMG/image-14.png)
 - 대댓글 작성 & 대댓글 삭제
-![대댓글 작성 및 삭제](image-15.png)
+![대댓글 작성 및 삭제](./README-IMG/image-15.png)
 - static 파일 (css파일에 컬러 설정, 적용이 반영 되었습니다.)
-![static1](image-18.png)
-![static2](image-17.png)
-![static3](image-16.png)
+![static1](./README-IMG/image-18.png)
+![static2](./README-IMG/image-17.png)
+![static3](./README-IMG/image-16.png)
 
 
 ## 프로젝트를 진행하면서 힘들었던 점
 - aws 로컬환경에서 실행 -> 오류, 아래와같이 수정했더니 드디어 실행이 되었습니다.
 1. aws 방화벽 TCP포트 추가 80,8000,8080
-![포트](image.png)
+![포트](./README-IMG/image.png)
 2. settings.py 수정
-![allowed host](image-1.png)
+![allowed host](./README-IMG/image-1.png)
 
 - uwsgi 및 nginx 환경설정파일 수정이 정말 어려웠습니다.
 - 대댓글 기능을 구현하는 중, 코멘트에 재귀적으로 구현하는것이 정말 어려웠습니다. 그리하여 Reply 테이블을 새로 만들어서 구현하는 방법으로 해결하였습니다.
