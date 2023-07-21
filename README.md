@@ -63,7 +63,7 @@
     - aws 방화벽 TCP포트 추가 80,8000,8080
     ![포트](./README-IMG/image.png)
     - settings.py 수정
-    ![allowed host](./README-IMG/image-1.png)
+    ![allowed host](./README-IMG/image99.png)
 
 2. uwsgi 및 nginx 환경설정파일 수정이 정말 어려웠습니다.
 3. 대댓글 기능을 구현하는 중, 코멘트에 재귀적으로 구현하는것이 정말 어려웠습니다. 그리하여 Reply 테이블을 새로 만들어서 구현하는 방법으로 해결하였습니다.
