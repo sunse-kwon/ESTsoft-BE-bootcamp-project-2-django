@@ -1,6 +1,9 @@
+from typing import Any, Dict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from django.views.generic import ListView
 from django.db import models
+from django.db.models import Q
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post, Comment, Hashtag, Reply
@@ -29,21 +32,36 @@ class PostWrite(LoginRequiredMixin, View):
         return render(request, 'blog/post_form.html', context)
 
 
-class PostList(View):
-    def get(self, request):
-        posts = Post.objects.all()
-        context = {
-            'posts': posts
-        }
-        return render(request, 'blog/post_list.html', context)
+class PostList(ListView):
+    model = Post
+    ordering = '-pk'
+
+    def get_context_data(self, **kwargs):
+        context = super(PostList, self).get_context_data(**kwargs)
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search_keyword = self.request.GET.get('q')
+
+        if search_keyword:
+            # queryset = queryset.filter(title__icontains=search_keyword)
+            # distinct()는 중복을 제거합니다.
+            # Q는 |(or), &(and), ~(not) 연산자를 사용할 수 있습니다.
+            # icontains는 대소문자를 구분하지 않는 검색입니다.
+            queryset = queryset.filter(
+                Q(title__icontains=search_keyword) | Q(content__icontains=search_keyword) | Q(tags__name__icontains=search_keyword)).distinct()
+
+        return queryset
 
 
 class PostDetail(View):
     def get(self, request, pk):
         post = Post.objects.prefetch_related(
-            'comment_set', 'hashtag_set').get(pk=pk)
+            'comment_set').get(pk=pk)
+
         comments = post.comment_set.all()
-        hashtags = post.hashtag_set.all()
+        hashtags = post.tags.all()
 
         comment_form = CommentForm()
         hashtag_form = HashtagForm()
@@ -94,7 +112,7 @@ class CommentWrite(LoginRequiredMixin, View):
     def post(self, request, post_id):
         form = CommentForm(request.POST)
         post = Post.objects.prefetch_related(
-            'comment_set', 'hashtag_set').get(pk=post_id)
+            'comment_set').get(pk=post_id)
         if form.is_valid():
             content = form.cleaned_data['content']
             user = request.user
@@ -105,7 +123,7 @@ class CommentWrite(LoginRequiredMixin, View):
         context = {
             'post': post,
             'comments': post.comment_set.all(),
-            'hashtags': post.hashtag_set.all(),
+            'hashtags': post.tags.all(),
             'comment_form': form,
             'hashtag_form': hashtag_form,
         }
@@ -124,16 +142,17 @@ class HashtagWrite(LoginRequiredMixin, View):
     def post(self, request, post_id):
         form = HashtagForm(request.POST)
         post = Post.objects.prefetch_related(
-            'comment_set', 'hashtag_set').get(pk=post_id)
+            'comment_set').get(pk=post_id)
         if form.is_valid():
             name = form.cleaned_data['name']
-            hashtag = Hashtag.objects.create(post=post, name=name)
+            hashtag = Hashtag.objects.create(name=name)
+            post.tags.add(hashtag)
             return redirect('blog:detail', pk=post_id)
         comment_form = CommentForm()
         context = {
             'post': post,
             'comments': post.comment_set.all(),
-            'hashtags': post.hashtag_set.all(),
+            'hashtags': post.tags.all(),
             'comment_form': comment_form,
             'hashtag_form': form,
         }
@@ -143,24 +162,24 @@ class HashtagWrite(LoginRequiredMixin, View):
 class HashtagDelete(View):
     def post(self, request, hashtag_id):
         hashtag = get_object_or_404(Hashtag, pk=hashtag_id)
-        post_id = hashtag.post.id
+        post_id = hashtag.post_set.id
         hashtag.delete()
         return redirect('blog:detail', pk=post_id)
 
 
-class PostSearch(View):
-    def get(self, request, tag):
-        print(f'request.GET: {request.GET}')
-        posts = Post.objects.prefetch_related(
-            'hashtag_set').filter(hashtag__name=tag).order_by('-created_at')
-        print(f'tag: {tag}')
-        context = {
-            'posts': posts,
-        }
-        return render(request, 'blog/post_list.html', context)
+# class PostSearch(View):
+#     def get(self, request, tag):
+#         print(f'request.GET: {request.GET}')
+#         posts = Post.objects.prefetch_related(
+#             'hashtag_set').filter(hashtag__name=tag).order_by('-created_at')
+#         print(f'tag: {tag}')
+#         context = {
+#             'posts': posts,
+#         }
+#         return render(request, 'blog/post_list.html', context)
 
 
-class ReplyWrite(View):
+class ReplyWrite(LoginRequiredMixin, View):
     def post(self, request, comment_id):
         form = ReplyForm(request.POST)
         parent = Comment.objects.get(pk=comment_id)

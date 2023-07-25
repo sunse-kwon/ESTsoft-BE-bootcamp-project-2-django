@@ -10,6 +10,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tags = models.ManyToManyField('Hashtag', blank=True)
 
 
 class Comment(models.Model):
@@ -18,7 +19,7 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey('Post', on_delete=models.CASCADE)
-    
+
     class Meta:
         ordering = ['created_at']
 
@@ -28,7 +29,6 @@ class Comment(models.Model):
 
 class Hashtag(models.Model):
     name = models.CharField(max_length=10)
-    post = models.ForeignKey('Post', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -40,6 +40,6 @@ class Reply(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+
     def __str__(self):
         return self.content

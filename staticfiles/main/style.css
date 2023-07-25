@@ -1,0 +1,55 @@
+/* 초기화 */
+body,
+h1,
+h2,
+fieldset,
+ul {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+input,
+textarea,
+select {
+	box-sizing: border-box;
+}
+
+select:enabled,
+button:enabled {
+	cursor: pointer;
+}
+
+/* 초기화 */
+
+.main-container {
+	min-width: 1200px;
+	height: 90vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+/* footer */
+.footer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	background: #eeeeee;
+	font-size: large;
+	height: 8vh;
+}
+
+.btn {
+	font-weight: 700;
+	background-color: #eeeeee;
+}

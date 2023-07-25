@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="login-container">
     <h2 class="login">로그인</h2>
-
+    <p>이메일을 입력해주세요.</p>
     <form action="{% url 'user:login' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="로그인">
+        <input type="submit" value="로그인" class="btn custom">
     </form>
+</div>
 {% endblock %}

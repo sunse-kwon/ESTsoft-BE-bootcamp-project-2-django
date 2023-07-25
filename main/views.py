@@ -7,4 +7,4 @@ class Index(View):
         context = {
             'title': 'Index'
         }
-        return render(request, 'index.html')
+        return render(request, '../templates/index.html')

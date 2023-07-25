@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="register-container">
     <h2 class="register">회원가입</h2>
     <form action="{% url 'user:register' %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="회원가입">
+        <input type="submit" value="회원가입" class="btn custom">
     </form>
+</div>
 {% endblock %}

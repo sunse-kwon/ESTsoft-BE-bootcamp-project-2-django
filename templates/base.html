@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 {% load static %}
+{% load django_bootstrap5 %}
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
     <!-- css -->
+    <!-- <link rel="stylesheet" href="{% static 'blog/style.css' %}?after">
+    <link rel="stylesheet" href="{% static 'user/style.css' %}?after">
+    <link rel="stylesheet" href="{% static 'main/style.css' %}?after"> -->
+
     <link rel="stylesheet" href="{% static 'blog/style.css' %}">
     <link rel="stylesheet" href="{% static 'user/style.css' %}">
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
     <title>
         {% block title %}
             {{ title }}
@@ -16,19 +23,56 @@
     </title>
 </head>
 <body>
-    <div class="container">
+    <header>
         {% if user.is_authenticated %}
-            <p>Welcome, {{ user.email }} </p>
-            <a href="{% url 'user:logout' %}">Logout</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <h1></h1>
+                <a class="navbar-brand" href="/">싱가폴 여행카페</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'user:register' %}">회원가입</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'user:logout' %}">로그아웃</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'blog:list' %}">게시판</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="d-flex p-2">
+            <p class="me-3">환영합니다!!! {{ user.email }} </p>
+        </div>
         {% else %}
-            <p>please Login</p>
-            <a href="{% url 'user:login' %}">로그인</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <h1></h1>
+                <a class="navbar-brand" href="/">싱가폴 여행카페</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'user:register' %}">회원가입</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'user:login' %}">로그인</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'blog:list' %}">게시판</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <header>
+        <div class="d-flex p-2">
+            <p class="me-3">서비스 이용을 위해서 로그인이 필요합니다.</p>
+        </div>
         {% endif %}
+    </header>
+
+    <main class="main-container flex-grow-1">
         {% block content %}
         {% endblock %}
-    </div>
+    </main>
+
     
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <footer class="text-center footer mt-auto py-3">
+        <p>Copyright 2023. Bundle Trip Planner by Chat All rights reserved.</p>
+    </footer>
+    
 </body>
 </html>

@@ -17,7 +17,7 @@ urlpatterns = [
          views.HashtagWrite.as_view(), name='tag-write'),
     path('<int:hashtag_id>/hashtag/delete/',
          views.HashtagDelete.as_view(), name='tag-delete'),
-    path("search/<str:tag>/", views.PostSearch.as_view(), name='post-search'),
+    #     path("search/<str:tag>/", views.PostSearch.as_view(), name='post-search'),
     path('<int:comment_id>/reply/write/',
          views.ReplyWrite.as_view(), name='reply-write'),
     path('<int:reply_id>/reply/delete/',

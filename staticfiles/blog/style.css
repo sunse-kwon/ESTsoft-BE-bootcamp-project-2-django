@@ -1,3 +1,61 @@
 .main-title {
-    color: aquamarine;
+    color: slategrey;
+}
+
+.blog-container {
+    width: 1200px;
+}
+
+.search-list-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.write-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.blog-search {
+    display: flex;
+}
+
+.search-b {
+    width: 70px;
+}
+
+/* post_form */
+
+.write-container {
+    background-color:whitesmoke;
+    border-radius: 10px;
+    width: fit-content;
+}
+.write-btn {
+float: right;
+}
+/* post detail */
+.detail-container {
+    text-align: left;
+    overflow-y: scroll;
+    width: 100%;
+}
+.detail-container textarea {
+    height: 40px;
+}
+.detail-title {
+    justify-content: space-between;
+}
+
+/* comment */
+.comment-container {
+    overflow-y: scroll;
+}
+.comment-list {
+    color:black;
+}
+.reply-list {
+    margin-left: 30px;
 }
