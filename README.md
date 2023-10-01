@@ -29,7 +29,7 @@
 
 ### ERD 기획
 ![ERD](./architecture/django-project1.png)
-- 처음 기획할 당시 2단계를 목표로 구현하여 Reply에 테이블에 대한 고려가 없었습니다. 구현하다보니 reply테이블을 추가구현하였으나 ERD상에서는 반영되지 않았습니다. Reply 테이블을 Comment테이블과 비슷하나, Post를 foreinkey로 참조하지 않았습니다. 
+- 처음 기획할 당시 Reply에 기능에 대한 고려가 없었습니다. 나중에 reply 기능을 추가하면서 모델을 생성하였으나 ERD상에서는 반영되지 않았습니다.
 
 ### 기능 기획 (마인드맵)
 ![기능](./architecture/service%20mindmap.png)
